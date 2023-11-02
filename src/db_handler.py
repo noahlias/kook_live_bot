@@ -57,3 +57,16 @@ class DBHandler:
         """
         self.c.execute("SELECT 1 FROM user_ids WHERE user_id = ?", (user_id,))
         return self.c.fetchone() is not None
+
+    def delete_user_id(self, user_id: str) -> None:
+        """
+        Deletes a user ID from the database.
+
+        Args:
+            user_id: The user ID to delete.
+
+        Returns:
+            None
+        """
+        self.c.execute("DELETE FROM user_ids WHERE user_id = ?", (user_id,))
+        self.conn.commit()

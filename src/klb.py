@@ -3,9 +3,9 @@ import os
 import time
 
 from bilireq.live import get_rooms_info_by_uids
-from khl import Bot, Message
-from khl.card import Card, CardMessage, Element, Module, Struct, Types
 from dotenv import load_dotenv
+from khl import Bot, Message
+from khl.card import Card, CardMessage, Element, Module
 
 from .utils import SingletonLogger, calc_time_total
 
@@ -17,9 +17,18 @@ bot = Bot(token=TOKEN)
 from .db_handler import DBHandler
 
 db = DBHandler("bilibili_live_user_ids.db")
-logger = SingletonLogger().get_logger()
-status = {}
-live_time = {}
+
+
+def reset_data() -> None:
+    """
+    Resets the status and live_time dictionaries.
+
+    Returns:
+        None
+    """
+    global status, live_time
+    status = {}
+    live_time = {}
 
 
 @bot.command(name="ping")
@@ -47,8 +56,25 @@ async def subscribe(msg: Message, user_id: str):
         )
 
 
-@bot.task.add_interval(minutes=2)
-async def live_sched() -> None:
+@bot.command(name="unsubscribe")
+async def unsubscribe(msg: Message, user_id: str):
+    """
+    Unsubscribes from a Bilibili live user ID and removes it from the SQLite database.
+    """
+    try:
+        if db.check_user_id_exists(user_id):
+            db.delete_user_id(user_id)
+            await msg.reply(f"Unsubscribed from Bilibili live user ID {user_id}!")
+        else:
+            await msg.reply(f"Bilibili live user ID {user_id} is not subscribed!")
+    except Exception as e:
+        await msg.reply(
+            f"An error occurred while unsubscribing from Bilibili live user ID {user_id}: {e}"
+        )
+
+
+@bot.task.add_interval(seconds=10)
+async def live_sched():
     """
     Task that checks if certain Bilibili users are live streaming, and sends notifications when their streaming status changes.
 
@@ -60,7 +86,6 @@ async def live_sched() -> None:
     """
     uids = db.get_all_user_ids()
     ch = await bot.client.fetch_public_channel(CHANNEL_ID)
-
     if not uids:
         return
     logger.debug(f"爬取直播列表，目前开播{sum(status.values())}人，总共{len(uids)}人")
@@ -95,8 +120,8 @@ async def live_sched() -> None:
                 Module.Header(f"{name} 开播啦！"),
                 Module.Context(f"分区：{room_area}"),
                 Module.Section(f"标题：{title}"),
-                Module.Section(Element.Image(src=cover)),
-                Module.Section(url),
+                Module.Container(Element.Image(src=cover)),
+                Module.Section(f"[{url}]({url})"),
             )
         else:  # 下播
             logger.info(f"检测到下播：{name}（{uid}）")
@@ -106,13 +131,15 @@ async def live_sched() -> None:
                 else "。"
             )
             live_msg = Card(Module.Header(f"{name} 下播了{live_time_msg}"))
-        logger.info(json.dumps(live_msg))
         ret = await ch.send(CardMessage(live_msg))
         logger.info(f"Sent message: {ret['msg_id']}")
 
 
-def klb():
+def klb(debug: bool):
     """
     Runs the bot.
     """
+    global logger
+    reset_data()
+    logger = SingletonLogger(debug).get_logger()
     bot.run()

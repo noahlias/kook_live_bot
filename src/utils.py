@@ -20,13 +20,13 @@ class SingletonLogger:
         level = "DEBUG" if debug else "INFO"
 
         # stdout handler
-        logger.add(sys.stdout, format=format_string, filter="my_module", level=level)
+        logger.add(sys.stdout, format=format_string, colorize=True, level=level)
 
         # file handler
         logger.add(
             "kook_live_bot.log",
             format=format_string,
-            filter="my_module",
+            colorize=True,
             level=level,
             rotation="1 week",
             retention="10 days",
