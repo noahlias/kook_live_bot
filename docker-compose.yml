@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  klb:
+    image: alias4ck/kook_live_bot:latest
+    env_file:
+      - ./.env

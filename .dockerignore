@@ -1,0 +1,17 @@
+
+# Ignore all files and directories that start with a dot
+.*
+
+# Ignore the virtual environment directory
+venv/
+
+# Ignore any compiled Python files
+*.pyc
+
+# Ignore any log files
+*.log
+
+# Ignore any cache directories
+__pycache__/
+
+.github
