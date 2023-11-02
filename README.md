@@ -3,6 +3,8 @@
 
 This is a bot for Kook Live.
 
+![demo](assets/image.png)
+
 ## Features
 
 - [x] Subscribe BiliBili live room
@@ -14,7 +16,6 @@ This is a bot for Kook Live.
 
 You should copy `.env.example` to `.env` and fill in the required values.
 
-```bash
 ```bash
 $ docker-compose up -d
 ```
@@ -32,3 +33,8 @@ And then install dependencies.
 ```bash
 $ poetry install
 ```
+
+## Thanks
+
+- [khl.py](https://github.com/TWT233/khl.py)
+- [Harukubot](https://github.com/SK-415/HarukaBot/)
