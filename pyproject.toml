@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "kook-live-bot"
+version = "0.1.0"
+description = "simple bot for push bili live status"
+authors = ["Noahlias <yygggg@foxmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.7"
+bilireq = "^0.2.11"
+python-dotenv = "^1.0.0"
+khl-py = "^0.3.16"
+loguru = "^0.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
+klb = "src.cli:kook_live_bot"
