@@ -1,4 +1,3 @@
-import json
 import os
 import time
 
@@ -88,9 +87,9 @@ async def all_ids(msg: Message):
         name_string = ""
         image_list = []
         for uid, info in res.items():
-            id_string += f"\n{uid} "
+            id_string += f"\n{uid}"
             name_string += f"\n{info['uname']}"
-            image_list.append(Element.Image(src=info["face"], circle=True, size='lg'))
+            image_list.append(Element.Image(src=info["face"], circle=True, size="lg"))
         all_msg = CardMessage(
             Card(
                 Module.Section(
