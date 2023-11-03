@@ -79,6 +79,17 @@ async def all_ids(msg: Message):
     """
     try:
         user_ids = db.get_all_user_ids()
+        if not user_ids:
+            await msg.reply(
+                CardMessage(
+                    Card(
+                        Module.Section(
+                            "You are currently not subscribed to any users.",
+                        ),
+                    )
+                )
+            )
+            return
         res = await get_rooms_info_by_uids(
             user_ids,
             reqtype="web",
