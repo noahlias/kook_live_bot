@@ -10,6 +10,7 @@ This is a bot for Kook Live.
 - [x] Subscribe BiliBili live room
 - [x] Unsubscribe BiliBili live room
 - [x] Auto push live stream message to chat channel.
+- [x] Show all Subscribed live rooms
 
 
 ## Getting Started
