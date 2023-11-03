@@ -124,11 +124,17 @@ async def help(msg: Message):
     Shows all the useful commands.
     """
     commands = """
-    subscribe <user_id>: Subscribes to a Bilibili live user ID.
-    unsubscribe <user_id>: Unsubscribes from a Bilibili live user ID.
-    all: Fetches all Bilibili live user IDs.
+    **subscribe <user_id>**: Subscribes to a Bilibili live user ID.\n
+    **unsubscribe <user_id>**: Unsubscribes from a Bilibili live user ID.\n
+    **all**: Fetches all Bilibili live user IDs.\n
+    **help**: Shows all the useful commands.\n
     """
-    await msg.reply(commands)
+    m = CardMessage(
+        Card(
+            Module.Section(commands),
+        )
+    )
+    await msg.reply(m)
 
 
 @bot.task.add_interval(seconds=10)

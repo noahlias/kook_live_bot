@@ -1,9 +1,11 @@
 
 # Kook_Live_Bot
 
-This is a bot for Kook Live.
+This is a BiliBili live push bot for Kook .
 
 ![demo](assets/image.png)
+
+![show all](assets/show.png)
 
 ## Features
 
