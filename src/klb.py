@@ -5,7 +5,7 @@ import time
 from bilireq.live import get_rooms_info_by_uids
 from dotenv import load_dotenv
 from khl import Bot, Message
-from khl.card import Card, CardMessage, Element, Module
+from khl.card import Card, CardMessage, Element, Module, Struct, Types
 
 from .utils import SingletonLogger, calc_time_total
 
@@ -71,6 +71,54 @@ async def unsubscribe(msg: Message, user_id: str):
         await msg.reply(
             f"An error occurred while unsubscribing from Bilibili live user ID {user_id}: {e}"
         )
+
+
+@bot.command(name="all")
+async def all_ids(msg: Message):
+    """
+    Fetches all Bilibili live user IDs from the SQLite database and shows them in the conversation.
+    """
+    try:
+        user_ids = db.get_all_user_ids()
+        res = await get_rooms_info_by_uids(
+            user_ids,
+            reqtype="web",
+        )
+        id_string = ""
+        name_string = ""
+        image_list = []
+        for uid, info in res.items():
+            id_string += f"\n{uid} "
+            name_string += f"\n{info['uname']}"
+            image_list.append(Element.Image(src=info["face"], circle=True, size='lg'))
+        all_msg = CardMessage(
+            Card(
+                Module.Section(
+                    Struct.Paragraph(
+                        2,
+                        Element.Text(f"**ID**{id_string}", type=Types.Text.KMD),
+                        Element.Text(f"**昵称**{name_string}", type=Types.Text.KMD),
+                    )
+                ),
+                Module.Context(*image_list),
+            )
+        )
+        await msg.reply(all_msg)
+    except Exception as e:
+        await msg.reply(f"An error occurred while fetching Bilibili live user IDs: {e}")
+
+
+@bot.command(name="help")
+async def help(msg: Message):
+    """
+    Shows all the useful commands.
+    """
+    commands = """
+    subscribe <user_id>: Subscribes to a Bilibili live user ID.
+    unsubscribe <user_id>: Unsubscribes from a Bilibili live user ID.
+    all: Fetches all Bilibili live user IDs.
+    """
+    await msg.reply(commands)
 
 
 @bot.task.add_interval(seconds=10)
