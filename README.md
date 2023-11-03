@@ -14,7 +14,6 @@ This is a BiliBili live push bot for Kook .
 - [x] Auto push live stream message to chat channel.
 - [x] Show all Subscribed live rooms
 
-
 ## Getting Started
 
 You should copy `.env.example` to `.env` and fill in the required values.
@@ -37,7 +36,18 @@ And then install dependencies.
 $ poetry install
 ```
 
+## TODO
+
+- [ ] Support multiple chat channels and multiple server or guild
+- [ ] Add more live room info
+- [ ] Support more live platform such as `Douyu` `Huya` `Bilibili` `Youtube` `Twitch``
+- [ ] Add AI features to this bot, Maybe.
+
 ## Thanks
 
 - [khl.py](https://github.com/TWT233/khl.py)
 - [Harukubot](https://github.com/SK-415/HarukaBot/)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
