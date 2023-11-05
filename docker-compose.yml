@@ -2,6 +2,6 @@ version: '3'
 
 services:
   klb:
-    image: ghcr.io/alias4ck/kook_live_bot/kook_live_bot:latest
+    image: ghcr.io/alias4ck/kook_live_bot/klb:latest
     env_file:
       - ./.env

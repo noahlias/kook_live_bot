@@ -37,7 +37,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/kook_live_bot:latest
+          tags: ghcr.io/${{ env.REPO_NAME }}/klb:latest
           platforms: linux/amd64
 
       - name: Image digest
