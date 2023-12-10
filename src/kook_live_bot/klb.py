@@ -13,7 +13,7 @@ TOKEN = os.environ.get("TOKEN")
 CHANNEL_ID = os.environ.get("CHANNEL_ID")
 bot = Bot(token=TOKEN)
 
-from .db_handler import DBHandler
+from .db_handler import DBHandler  # noqa: E402
 
 db = DBHandler("bilibili_live_user_ids.db")
 
@@ -67,9 +67,8 @@ async def unsubscribe(msg: Message, user_id: str):
         else:
             await msg.reply(f"Bilibili live user ID {user_id} is not subscribed!")
     except Exception as e:
-        await msg.reply(
-            f"An error occurred while unsubscribing from Bilibili live user ID {user_id}: {e}"
-        )
+        error_msg = f"An error occurred while unsubscribing from Bilibili live user ID {user_id}: {e}"
+        await msg.reply(error_msg)
 
 
 @bot.command(name="all")
